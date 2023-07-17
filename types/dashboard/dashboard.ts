@@ -1,8 +1,13 @@
 export type ItemDataProps = {
     id: string;
     title: string;
-    urls: {regular: string}
+    urls: {
+        regular: string
+    };
     alt_description: string
+    user: {
+        bio: string
+    }
 };
 
 export type ItemProps = {

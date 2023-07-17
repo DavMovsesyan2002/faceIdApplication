@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => (
     <Stack.Navigator initialRouteName="Registration">
-        <Stack.Screen name="Inside" component={InsideLayout} options={{headerShown: true}}/>
+        <Stack.Screen name="Inside" component={InsideLayout} options={{headerShown: false}}/>
     </Stack.Navigator>
 )
 

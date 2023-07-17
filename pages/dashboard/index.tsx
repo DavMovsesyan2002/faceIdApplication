@@ -1,13 +1,12 @@
 import {
     SafeAreaView,
     FlatList,
-    StyleSheet, View, Text, TouchableOpacity,
+    StyleSheet, View, Text, TouchableOpacity, ActivityIndicator,
 } from 'react-native';
-// import {FIREBASE_AUTH} from "../../firebaseConfig";
-import {SetStateAction, useEffect, useState} from "react";
+import React, {SetStateAction, useEffect, useState} from "react";
 import List from "../../components/user/List";
-import Pagination from "../../components/user/Pagination";
-import {ISortedData, ItemDataProps} from "../../types/dashboard/dashboard";
+import Pagination from "../../components/pagination/Pagination";
+import {ItemDataProps} from "../../types/dashboard/dashboard";
 import {RouterProps} from "../../types/route/route";
 
 const ACCESS_KEY = 'PYLoOTjIB72QWqrijqixoPVabeueomre9mVVqeiX4AA'
@@ -16,8 +15,12 @@ const Dashboard = ({navigation}: RouterProps) => {
     const [data, setData] = useState<ItemDataProps[]>([]);
     const [sortBy, setSortBy] = useState('latest'); // Default sorting option
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(100);
+    const [totalItems, setTotalItems] = useState(0);
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const totalPages = 5;
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const MAX_LIMIT = 10; // Maximum items per page
+
 
     useEffect(() => {
         sortData();
@@ -28,11 +31,17 @@ const Dashboard = ({navigation}: RouterProps) => {
     }, [currentPage]);
 
     const fetchData = async (page: number) => {
+        setIsLoading(true)
         const API_URL = `https://api.unsplash.com/photos/?count=10&client_id=${ACCESS_KEY}&page=${page}`;
         const response = await fetch(API_URL);
         const data = await response.json();
+        const headers = response.headers;
+        const totalItems = parseInt(headers.get('x-total') as string, 10);
+        const totalPages = Math.ceil(100 / MAX_LIMIT);
+        setTotalItems(totalItems);
+        setTotalPages(totalPages);
         setData(data);
-        console.log(response, "response")
+        setIsLoading(false)
     };
 
     // const handleSignOut = () => {
@@ -99,12 +108,12 @@ const Dashboard = ({navigation}: RouterProps) => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            {data && <FlatList
+            {isLoading ? <ActivityIndicator  style={[styles.isLoading]} size="large" color="#0000ff" /> : data && <FlatList
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />}
-            <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
+            <Pagination totalPages={totalPages} totalItems={totalItems} onPageChange={handlePageChange} />
             {/*<Button title="Logout" onPress={handleSignOut}/>*/}
         </SafeAreaView>
     )
@@ -148,6 +157,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#2196F3',
     },
+    isLoading:{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
 
 export default Dashboard

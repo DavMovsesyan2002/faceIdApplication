@@ -12,7 +12,7 @@ const List = ({item, onPress, showDescription}: ItemProps) => (
         <View key={item.id} style={styles.listContainer}>
             <Image source={{uri: item.urls.regular}} style={styles.image}/>
             <Text style={[styles.title]}>{item.alt_description}</Text>
-            <Text style={[styles.description]}>{showDescription && 'description'}</Text>
+            <Text style={[styles.description]}>{showDescription && item.user.bio}</Text>
         </View>
     </TouchableOpacity>
 );

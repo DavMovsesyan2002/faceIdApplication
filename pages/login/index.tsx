@@ -45,8 +45,10 @@ export const LogIn = ({navigation}: RouterProps) => {
             console.log(response)
             navigation.navigate('Inside')
         }catch (error){
-            console.log(error)
-            alert('Sign in failed: ' + error.message)
+            if (error instanceof Error) {
+                console.log(error)
+                alert('Sign in failed: ' + error.message)
+            }
         }finally {
             setIsLoading(false)
         }
