@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import {IPaginationProps} from "../../types/pagination/pagination";
 
-const Pagination = ({ totalPages, onPageChange }) => {
+const Pagination = ({ totalPages, onPageChange }: IPaginationProps ) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const Pagination = ({ totalPages, onPageChange }) => {
     };
 
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', padding: 10, justifyContent: 'space-around', width: '100%' }}>
             <TouchableOpacity onPress={handlePreviousPage} disabled={currentPage === 1}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold', marginRight: 10 }}>Previous</Text>
             </TouchableOpacity>

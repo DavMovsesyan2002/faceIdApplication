@@ -5,19 +5,7 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
-
-interface ListProps {
-    id: number
-    urls: any
-    alt_description: string
-}
-
-type ItemProps = {
-    item: ListProps;
-    onPress: () => void;
-    showDescription: boolean;
-    textColor: string;
-};
+import {ItemProps} from "../../types/dashboard/dashboard";
 
 const List = ({item, onPress, showDescription}: ItemProps) => (
     <TouchableOpacity onPress={onPress}>

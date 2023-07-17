@@ -1,39 +1,27 @@
 import {
     SafeAreaView,
-    View,
     FlatList,
-    StyleSheet,
-    Text,
-    Image,
-    Button, TouchableOpacity
+    StyleSheet, View, Text, TouchableOpacity,
 } from 'react-native';
-import {NavigationProp} from "@react-navigation/native";
-import {FIREBASE_AUTH} from "../../firebaseConfig";
+// import {FIREBASE_AUTH} from "../../firebaseConfig";
 import {SetStateAction, useEffect, useState} from "react";
 import List from "../../components/user/List";
 import Pagination from "../../components/user/Pagination";
-
-// import Pagination,{Icon,Dot} from 'react-native-pagination';
-
-
-type ItemData = {
-    id: string;
-    title: string;
-};
-
-
-interface RouterProps {
-    navigation: NavigationProp<any, any>
-}
+import {ISortedData, ItemDataProps} from "../../types/dashboard/dashboard";
+import {RouterProps} from "../../types/route/route";
 
 const ACCESS_KEY = 'PYLoOTjIB72QWqrijqixoPVabeueomre9mVVqeiX4AA'
-// const API_URL = `https://api.unsplash.com/photos/?count=10&client_id=${ACCESS_KEY}`;
 
 const Dashboard = ({navigation}: RouterProps) => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<ItemDataProps[]>([]);
+    const [sortBy, setSortBy] = useState('latest'); // Default sorting option
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const totalPages = 5;
+
+    useEffect(() => {
+        sortData();
+    }, [sortBy]);
 
     useEffect(() => {
         fetchData(currentPage);
@@ -41,18 +29,16 @@ const Dashboard = ({navigation}: RouterProps) => {
 
     const fetchData = async (page: number) => {
         const API_URL = `https://api.unsplash.com/photos/?count=10&client_id=${ACCESS_KEY}&page=${page}`;
-
-        // ?page=${page}
         const response = await fetch(API_URL);
         const data = await response.json();
         setData(data);
         console.log(response, "response")
     };
 
-    const handleSignOut = () => {
-        FIREBASE_AUTH.signOut()
-        navigation.navigate('Login')
-    }
+    // const handleSignOut = () => {
+    //     FIREBASE_AUTH.signOut()
+    //     navigation.navigate('Login')
+    // }
 
     const handlePageChange = (page: SetStateAction<number>) => {
         setCurrentPage(page);
@@ -63,7 +49,24 @@ const Dashboard = ({navigation}: RouterProps) => {
         setSelectedId(listId)
     }
 
-    const renderItem = ({item}: {item: ItemData}) => {
+    const sortData = () => {
+        const sortedData: ItemDataProps[] = [...data];
+
+        if (sortBy === 'last') {
+            sortedData.sort((a, b) => b.id.localeCompare(a.id));
+        } else if (sortBy === 'start') {
+            sortedData.sort((a, b) => a.id.localeCompare(b.id));
+        }
+
+        setData(sortedData);
+    };
+
+
+    const handleSortChange = (sort: SetStateAction<string>) => {
+        setSortBy(sort);
+    };
+
+    const renderItem = ({item}: {item: ItemDataProps}) => {
         const show = item.id === selectedId;
 
         return (
@@ -77,14 +80,31 @@ const Dashboard = ({navigation}: RouterProps) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.sortContainer}>
+                <Text style={styles.sortText}>Sort By:</Text>
+                <TouchableOpacity
+                    style={[styles.sortButton, sortBy === 'last' && styles.activeSortButton]}
+                    onPress={() => handleSortChange('last')}
+                >
+                    <Text style={sortBy === 'last' ? styles.sortButtonTextActive : styles.sortButtonText}>
+                        Last
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.sortButton, sortBy === 'start' && styles.activeSortButton]}
+                    onPress={() => handleSortChange('start')}
+                >
+                    <Text style={sortBy === 'start' ? styles.sortButtonTextActive : styles.sortButtonText}>
+                        Start
+                    </Text>
+                </TouchableOpacity>
+            </View>
             {data && <FlatList
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />}
-            <View style={styles.containerPagination}>
-                <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
-            </View>
+            <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
             {/*<Button title="Logout" onPress={handleSignOut}/>*/}
         </SafeAreaView>
     )
@@ -95,35 +115,38 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
     },
-    containerPagination: {
-        width: '100%',
-        padding: 16,
-    },
-    contentContainer: {
-        paddingBottom: 16,
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    buttonContainer: {
+    sortContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 16,
+        alignItems: 'center',
+        marginBottom: 10,
     },
-    pageInfo: {
+    sortText: {
+        fontSize: 18,
+        marginLeft: 20,
+        marginTop: 20,
+        marginRight: 20,
+    },
+    sortButton: {
+        marginTop: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        marginRight: 10,
+    },
+    activeSortButton: {
+        backgroundColor: '#2196F3',
+    },
+    sortButtonTextActive:{
+        color: '#fff',
         fontSize: 16,
-        marginTop: 16,
+        fontWeight: 'bold',
     },
-    image: {
-        width: '100%',
-        height: 200,
-        marginRight: 12,
-        marginBottom: 15,
-    },
-    listContainer: {
-        padding: 20,
+    sortButtonText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#2196F3',
     },
 });
 

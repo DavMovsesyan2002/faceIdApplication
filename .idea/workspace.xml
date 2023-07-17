@@ -5,18 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf4d45d6-b7ec-4724-abb3-452a5e4ab3f5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/components/faceIdScreen/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/dashboard/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/types/route/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/navigation/Routes.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/navigation/privetRoute.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/navigation/publicRoute.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/types/dashboard/dashboard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/types/pagination/pagination.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/user/Details.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/components/user/List.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/user/List.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/user/Pagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/user/Pagination.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigator/Routes.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/register/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/register/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/user/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/user/Pagination.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/dashboard/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +65,7 @@
       <updated>1689000466475</updated>
       <workItem from="1689000467852" duration="5817000" />
       <workItem from="1689269740609" duration="13262000" />
-      <workItem from="1689588121678" duration="8118000" />
+      <workItem from="1689588121678" duration="13035000" />
     </task>
     <servers />
   </component>
