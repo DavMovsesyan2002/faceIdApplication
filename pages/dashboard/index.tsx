@@ -8,6 +8,7 @@ import List from "../../components/user/List";
 import Pagination from "../../components/pagination/Pagination";
 import {ItemDataProps} from "../../types/dashboard/dashboard";
 import {RouterProps} from "../../types/route/route";
+import SortBy from "../../components/sortBy/SortBy";
 
 const ACCESS_KEY = 'PYLoOTjIB72QWqrijqixoPVabeueomre9mVVqeiX4AA'
 
@@ -89,25 +90,7 @@ const Dashboard = ({navigation}: RouterProps) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.sortContainer}>
-                <Text style={styles.sortText}>Sort By:</Text>
-                <TouchableOpacity
-                    style={[styles.sortButton, sortBy === 'last' && styles.activeSortButton]}
-                    onPress={() => handleSortChange('last')}
-                >
-                    <Text style={sortBy === 'last' ? styles.sortButtonTextActive : styles.sortButtonText}>
-                        Last
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.sortButton, sortBy === 'start' && styles.activeSortButton]}
-                    onPress={() => handleSortChange('start')}
-                >
-                    <Text style={sortBy === 'start' ? styles.sortButtonTextActive : styles.sortButtonText}>
-                        Start
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            <SortBy sortBy={sortBy} handleSortChange={handleSortChange} />
             {isLoading ? <ActivityIndicator  style={[styles.isLoading]} size="large" color="#0000ff" /> : data && <FlatList
                 data={data}
                 renderItem={renderItem}
@@ -123,39 +106,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-    },
-    sortContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    sortText: {
-        fontSize: 18,
-        marginLeft: 20,
-        marginTop: 20,
-        marginRight: 20,
-    },
-    sortButton: {
-        marginTop: 20,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        marginRight: 10,
-    },
-    activeSortButton: {
-        backgroundColor: '#2196F3',
-    },
-    sortButtonTextActive:{
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    sortButtonText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#2196F3',
     },
     isLoading:{
         width: '100%',
